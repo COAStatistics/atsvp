@@ -268,7 +268,7 @@ def replaceTicket(embed_code):
 class Tableau_base(TemplateView):
     '''子類別所需的重要/共同資料，組織在父類變數'''
     # --1.讀全部嵌入碼(coa\src\dashboard\Tableau_url.json)
-    file_path = os.path.join(os.path.dirname(__file__), 'Tableau_url_server.json')
+    file_path = os.path.join(os.path.dirname(__file__), 'Tableau_url.json')
     with open(file_path, 'r', encoding='utf-8') as json_file:
         wb_dict = json.loads(json_file.read())
     # --2.其他
@@ -309,7 +309,7 @@ class Tableau_base(TemplateView):
             except Exception as err:
                 return HttpResponse('重新爬蟲失敗，Error= ' + str(err))
         elif refresh == '2':
-            inner_json = os.path.join(os.path.dirname(__file__), r'Tableau_url\Tableau_url_inner.json')
+            inner_json = os.path.join(os.path.dirname(__file__), r'Tableau_url\Tableau_url.json')
             with open(inner_json, 'r', encoding='utf-8') as inner_json_file:
                 with open(cls.file_path, 'w', encoding='utf-8') as outer_json_file:
                     inner_data = inner_json_file.read()
@@ -337,14 +337,15 @@ class Tableau_base(TemplateView):
             self.wb_dict['貿易總覽']['meta']['概況']['embed'],
             self.wb_dict['貿易總覽']['meta']['進出口']['embed'],
             self.wb_dict['國家_產品別']['meta']['國家別']['embed'],
-            self.wb_dict['國家_製品別']['meta']['國家別-製品別']['embed'],
+            self.wb_dict['國家_製品別']['meta']['國家別']['embed'],
             self.wb_dict['農產品_產品別']['meta']['產品別']['embed'],
             self.wb_dict['農產品_製品別']['meta']['製品別']['embed'],
             self.wb_dict['SSG']['meta']['SSG']['embed'],
             self.wb_dict['豬肉進出口']['meta']['豬肉進出口']['embed'],
         ]
         # embed_code = 'test'
-        embed_code = replaceTicket(get_embed_code[which-1])
+        # embed_code = replaceTicket(get_embed_code[which-1])
+        embed_code = get_embed_code[which-1]
         # 根據menu按鈕，決定模板
         template_name = self.template_names[which-1]
         #
@@ -386,13 +387,21 @@ class Tableau1(Tableau_base):   #總體/總攬
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['貿易總覽']['meta']['概況']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['貿易總覽_月']['meta']['概況']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計']['meta']['概況']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['貿易總覽(台幣)']['meta']['概況']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['貿易總覽_月(台幣)']['meta']['概況']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計(台幣)']['meta']['概況']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['貿易總覽']['meta']['概況']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['貿易總覽_月']['meta']['概況']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計']['meta']['概況']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['貿易總覽(台幣)']['meta']['概況']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['貿易總覽_月(台幣)']['meta']['概況']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計(台幣)']['meta']['概況']['embed']),
+            'USDyear': self.wb_dict['貿易總覽']['meta']['概況']['embed'],
+            'USDmonth': self.wb_dict['貿易總覽_月']['meta']['概況']['embed'],
+            'USDaccumulation': self.wb_dict['貿易總覽_累計']['meta']['概況']['embed'],
+            'NTDyear': self.wb_dict['貿易總覽(台幣)']['meta']['概況']['embed'],
+            'NTDmonth': self.wb_dict['貿易總覽_月(台幣)']['meta']['概況']['embed'],
+            'NTDaccumulation': self.wb_dict['貿易總覽_累計(台幣)']['meta']['概況']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -402,13 +411,21 @@ class Tableau2(Tableau_base):   #總體/進出口貿易
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['貿易總覽']['meta']['進出口']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['貿易總覽_月']['meta']['進出口']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計']['meta']['進出口']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['貿易總覽(台幣)']['meta']['進出口']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['貿易總覽_月(台幣)']['meta']['進出口']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計(台幣)']['meta']['進出口']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['貿易總覽']['meta']['進出口']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['貿易總覽_月']['meta']['進出口']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計']['meta']['進出口']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['貿易總覽(台幣)']['meta']['進出口']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['貿易總覽_月(台幣)']['meta']['進出口']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['貿易總覽_累計(台幣)']['meta']['進出口']['embed']),
+            'USDyear': self.wb_dict['貿易總覽']['meta']['進出口']['embed'],
+            'USDmonth': self.wb_dict['貿易總覽_月']['meta']['進出口']['embed'],
+            'USDaccumulation': self.wb_dict['貿易總覽_累計']['meta']['進出口']['embed'],
+            'NTDyear': self.wb_dict['貿易總覽(台幣)']['meta']['進出口']['embed'],
+            'NTDmonth': self.wb_dict['貿易總覽_月(台幣)']['meta']['進出口']['embed'],
+            'NTDaccumulation': self.wb_dict['貿易總覽_累計(台幣)']['meta']['進出口']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -418,13 +435,21 @@ class Tableau3(Tableau_base):   #國家地區別/產品別
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['國家_產品別']['meta']['國家別']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['國家_產品別_月']['meta']['國家別']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['國家_產品別_累計']['meta']['國家別']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['國家_產品別(台幣)']['meta']['國家別']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['國家_產品別_月(台幣)']['meta']['國家別']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['國家_產品別_累計(台幣)']['meta']['國家別']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['國家_產品別']['meta']['國家別']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['國家_產品別_月']['meta']['國家別']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['國家_產品別_累計']['meta']['國家別']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['國家_產品別(台幣)']['meta']['國家別']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['國家_產品別_月(台幣)']['meta']['國家別']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['國家_產品別_累計(台幣)']['meta']['國家別']['embed']),
+            'USDyear': self.wb_dict['國家_產品別']['meta']['國家別']['embed'],
+            'USDmonth': self.wb_dict['國家_產品別_月']['meta']['國家別']['embed'],
+            'USDaccumulation': self.wb_dict['國家_產品別_累計']['meta']['國家別']['embed'],
+            'NTDyear': self.wb_dict['國家_產品別(台幣)']['meta']['國家別']['embed'],
+            'NTDmonth': self.wb_dict['國家_產品別_月(台幣)']['meta']['國家別']['embed'],
+            'NTDaccumulation': self.wb_dict['國家_產品別_累計(台幣)']['meta']['國家別']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -434,13 +459,21 @@ class Tableau4(Tableau_base):   #國家地區別/製品別
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['國家_製品別']['meta']['國家別-製品別']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['國家_製品別_月']['meta']['國家別']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['國家_製品別_累計']['meta']['國家別']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['國家_製品別(台幣)']['meta']['國家別-製品別']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['國家_製品別_月(台幣)']['meta']['國家別']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['國家_製品別_累計(台幣)']['meta']['國家別']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['國家_製品別']['meta']['國家別-製品別']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['國家_製品別_月']['meta']['國家別']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['國家_製品別_累計']['meta']['國家別']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['國家_製品別(台幣)']['meta']['國家別-製品別']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['國家_製品別_月(台幣)']['meta']['國家別']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['國家_製品別_累計(台幣)']['meta']['國家別']['embed']),
+            'USDyear': self.wb_dict['國家_製品別']['meta']['國家別']['embed'],
+            'USDmonth': self.wb_dict['國家_製品別_月']['meta']['國家別']['embed'],
+            'USDaccumulation': self.wb_dict['國家_製品別_累計']['meta']['國家別']['embed'],
+            'NTDyear': self.wb_dict['國家_製品別(台幣)']['meta']['國家別']['embed'],
+            'NTDmonth': self.wb_dict['國家_製品別_月(台幣)']['meta']['國家別']['embed'],
+            'NTDaccumulation': self.wb_dict['國家_製品別_累計(台幣)']['meta']['國家別']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -450,13 +483,21 @@ class Tableau5(Tableau_base):   #農產品別/產品別
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['農產品_產品別']['meta']['產品別']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['農產品_產品別_月']['meta']['產品別月']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['農產品_產品別_累計']['meta']['產品別月累計']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['農產品_產品別(台幣)']['meta']['產品別(台幣)']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['農產品_產品別_月(台幣)']['meta']['產品別月(台幣)']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['農產品_產品別_累計(台幣)']['meta']['產品別累計(台幣)']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['農產品_產品別']['meta']['產品別']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['農產品_產品別_月']['meta']['產品別月']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['農產品_產品別_累計']['meta']['產品別月累計']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['農產品_產品別(台幣)']['meta']['產品別(台幣)']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['農產品_產品別_月(台幣)']['meta']['產品別月(台幣)']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['農產品_產品別_累計(台幣)']['meta']['產品別累計(台幣)']['embed']),
+            'USDyear': self.wb_dict['農產品_產品別']['meta']['產品別']['embed'],
+            'USDmonth': self.wb_dict['農產品_產品別_月']['meta']['產品別月']['embed'],
+            'USDaccumulation': self.wb_dict['農產品_產品別_累計']['meta']['產品別月累計']['embed'],
+            'NTDyear': self.wb_dict['農產品_產品別(台幣)']['meta']['產品別(台幣)']['embed'],
+            'NTDmonth': self.wb_dict['農產品_產品別_月(台幣)']['meta']['產品別月(台幣)']['embed'],
+            'NTDaccumulation': self.wb_dict['農產品_產品別_累計(台幣)']['meta']['產品別累計(台幣)']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -466,13 +507,21 @@ class Tableau6(Tableau_base):   #農產品別/製品別
     @property
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
+        # post_embed_code = {
+        #     'USDyear': replaceTicket(self.wb_dict['農產品_製品別']['meta']['製品別']['embed']),
+        #     'USDmonth': replaceTicket(self.wb_dict['農產品_製品別_月']['meta']['製品別月']['embed']),
+        #     'USDaccumulation': replaceTicket(self.wb_dict['農產品_製品別_累計']['meta']['製品別月累計']['embed']),
+        #     'NTDyear': replaceTicket(self.wb_dict['農產品_製品別(台幣)']['meta']['製品別(台幣)']['embed']),
+        #     'NTDmonth': replaceTicket(self.wb_dict['農產品_製品別_月(台幣)']['meta']['製品別月(台幣)']['embed']),
+        #     'NTDaccumulation': replaceTicket(self.wb_dict['農產品_製品別_累計(台幣)']['meta']['製品別累計(台幣)']['embed']),
+        # }
         post_embed_code = {
-            'USDyear': replaceTicket(self.wb_dict['農產品_製品別']['meta']['製品別']['embed']),
-            'USDmonth': replaceTicket(self.wb_dict['農產品_製品別_月']['meta']['製品別月']['embed']),
-            'USDaccumulation': replaceTicket(self.wb_dict['農產品_製品別_累計']['meta']['製品別月累計']['embed']),
-            'NTDyear': replaceTicket(self.wb_dict['農產品_製品別(台幣)']['meta']['製品別(台幣)']['embed']),
-            'NTDmonth': replaceTicket(self.wb_dict['農產品_製品別_月(台幣)']['meta']['製品別月(台幣)']['embed']),
-            'NTDaccumulation': replaceTicket(self.wb_dict['農產品_製品別_累計(台幣)']['meta']['製品別累計(台幣)']['embed']),
+            'USDyear': self.wb_dict['農產品_製品別']['meta']['製品別']['embed'],
+            'USDmonth': self.wb_dict['農產品_製品別_月']['meta']['製品別月']['embed'],
+            'USDaccumulation': self.wb_dict['農產品_製品別_累計']['meta']['製品別月累計']['embed'],
+            'NTDyear': self.wb_dict['農產品_製品別(台幣)']['meta']['製品別(台幣)']['embed'],
+            'NTDmonth': self.wb_dict['農產品_製品別_月(台幣)']['meta']['製品別月(台幣)']['embed'],
+            'NTDaccumulation': self.wb_dict['農產品_製品別_累計(台幣)']['meta']['製品別累計(台幣)']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -483,7 +532,7 @@ class Tableau7(Tableau_base):   #SSG
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
         post_embed_code = {
-            'SSG': replaceTicket(self.wb_dict['SSG']['meta']['SSG']['embed']),
+            'SSG': self.wb_dict['SSG']['meta']['SSG']['embed'],
         }
         return post_embed_code['SSG']
 
@@ -494,7 +543,7 @@ class Tableau8(Tableau_base):   #豬肉進出口
     def post_embed_code(self):
         # 從父類讀最新的wb_dict，決定出嵌入碼
         post_embed_code = {
-            '豬肉進出口': replaceTicket(self.wb_dict['豬肉進出口']['meta']['豬肉進出口']['embed']),
+            '豬肉進出口': self.wb_dict['豬肉進出口']['meta']['豬肉進出口']['embed'],
         }
         return post_embed_code['豬肉進出口']
 

@@ -379,16 +379,16 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # X-Content-Type-Options
 SECURE_BROWSER_XSS_FILTER = True    # X-XSS-Protection
 CSP_DEFAULT_SRC = ("'self'", "'unsafe-inline'")   # Content-Security-Policy
 CSP_CONNECT_SRC = ("'self'", "'unsafe-inline'", 'www.google-analytics.com')
-CSP_FRAME_SRC = ("'self'", "'unsafe-inline'", 'bigdata.moa.gov.tw')
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'cdn.datatables.net', 'cdnjs.cloudflare.com', 'bigdata.moa.gov.tw', 'www.google-analytics.com')
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", 'ajax.googleapis.com', 'cdnjs.cloudflare.com', 'bigdata.moa.gov.tw', 'www.google-analytics.com')
+CSP_FRAME_SRC = ("'self'", "'unsafe-inline'", 'bigdata.moa.gov.tw', 'public.tableau.com')
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'cdn.datatables.net', 'cdnjs.cloudflare.com', 'bigdata.moa.gov.tw', 'www.google-analytics.com', 'public.tableau.com')
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", 'ajax.googleapis.com', 'cdnjs.cloudflare.com', 'bigdata.moa.gov.tw', 'www.google-analytics.com', 'public.tableau.com')
 # CSP_SCRIPT_SRC_ELEM = ("'self'",'unsafe-inline','bigdata.moa.gov.tw')
 # CSP_INCLUDE_NONCE_IN=['script-src','style-src']   #使用此規則會覆蓋 'unsafe-inline'
 # CSP_NONCE_SCRIPT = True  # True if you want to use it
 # CSP_NONCE_STYLE = True  # True if you want to use it
 # CSP_FLAG_STRICT = True  # True to include strict-dynamic in CSP
 CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com','fonts.googleapis.com')
-CSP_IMG_SRC = ("'self'", 'www.google-analytics.com')
+CSP_IMG_SRC = ("'self'", 'www.google-analytics.com', 'public.tableau.com')
 
 # PERMISSIONS_POLICY
 PERMISSIONS_POLICY = {
