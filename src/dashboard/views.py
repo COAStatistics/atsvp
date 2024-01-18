@@ -497,7 +497,7 @@ class Tableau5(Tableau_base):   #農產品別/產品別
             'USDaccumulation': self.wb_dict['農產品_產品別_累計']['meta']['產品別月累計']['embed'],
             'NTDyear': self.wb_dict['農產品_產品別(台幣)']['meta']['產品別(台幣)']['embed'],
             'NTDmonth': self.wb_dict['農產品_產品別_月(台幣)']['meta']['產品別月(台幣)']['embed'],
-            'NTDaccumulation': self.wb_dict['農產品_產品別_累計(台幣)']['meta']['產品別累計(台幣)']['embed'],
+            'NTDaccumulation': self.wb_dict['農產品_產品別_累計(台幣)']['meta']['產品別月累計(台幣)']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
@@ -521,7 +521,7 @@ class Tableau6(Tableau_base):   #農產品別/製品別
             'USDaccumulation': self.wb_dict['農產品_製品別_累計']['meta']['製品別月累計']['embed'],
             'NTDyear': self.wb_dict['農產品_製品別(台幣)']['meta']['製品別(台幣)']['embed'],
             'NTDmonth': self.wb_dict['農產品_製品別_月(台幣)']['meta']['製品別月(台幣)']['embed'],
-            'NTDaccumulation': self.wb_dict['農產品_製品別_累計(台幣)']['meta']['製品別累計(台幣)']['embed'],
+            'NTDaccumulation': self.wb_dict['農產品_製品別_累計(台幣)']['meta']['製品別月累計(台幣)']['embed'],
         }
         return post_embed_code[self.dollar + self.date_range]
 
