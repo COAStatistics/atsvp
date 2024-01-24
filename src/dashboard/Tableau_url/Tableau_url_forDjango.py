@@ -157,7 +157,7 @@ def get_embed(driver):
                 driver.switch_to.frame(iframe) # 嵌入碼在iframe內
                 embed_link = 'div.fbyweya > input.f12ptpmq'
                 WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, embed_link)))
-                embed_link = driver.find_element_by_css_selector(embed_link).get_attribute("value")
+                embed_link = driver.find_element_by_css_selector(embed_link).get_attribute("value").replace('en-US', 'zh-TW').replace('taps')
                 # --存入字典
                 obj_href["embed"] = embed_link
             except Exception as err:
