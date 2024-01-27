@@ -69,8 +69,8 @@ services:
       - static-volume:/app/live-static-files
       - ./config/nginx:/etc/nginx/user.conf.d
       - letsencrypt:/etc/letsencrypt
-      - ./validation:/.well-known/pki-validation
-      - ./certification:/etc/ssl/live
+      # - ./validation:/.well-known/pki-validation
+      # - ./certification:/etc/ssl/live
     networks:
       - atri
 
