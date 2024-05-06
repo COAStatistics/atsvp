@@ -5,22 +5,22 @@ volumes:
   letsencrypt:
 
 services:
-  fds: &fds
-    container_name: fds
-    image: fds
-    # ports:
-    #   - 8000:8000
-    build: 
-      context: .
-      dockerfile: Dockerfile_fds
-    volumes:
-      - ./FDS:/app
-      - static-volume:/app/live-static-files
-    command: /app/scripts/start.sh
-    restart: on-failure
-    env_file: ./FDS/.env
-    networks:
-      - atri
+  # fds: &fds
+  #   container_name: fds
+  #   image: fds
+  #   # ports:
+  #   #   - 8000:8000
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile_fds
+  #   volumes:
+  #     - ./FDS:/app
+  #     - static-volume:/app/live-static-files
+  #   command: /app/scripts/start.sh
+  #   restart: on-failure
+  #   env_file: ./FDS/.env
+  #   networks:
+  #     - atri
 
   atsvp: &atsvp
     container_name: atsvp
@@ -39,32 +39,34 @@ services:
     networks:
       - atri
   
-  apsvp: &apsvp
-    container_name: apsvp
-    image: apsvp
-  #  ports:
-  #   #   - 8002:8002
-    build:
-      context: .
-      dockerfile: Dockerfile_apsvp
-    volumes:
-      - ./src2:/app
-      - static-volume:/app/live-static-files
-    command: /app/scripts/start.sh
-    restart: on-failure
-    env_file: .env
-    networks:
-      - atri
+  # apsvp: &apsvp
+  #   container_name: apsvp
+  #   image: apsvp
+  # #  ports:
+  # #   #   - 8002:8002
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile_apsvp
+  #   volumes:
+  #     - ./src2:/app
+  #     - static-volume:/app/live-static-files
+  #   command: /app/scripts/start.sh
+  #   restart: on-failure
+  #   env_file: .env
+  #   networks:
+  #     - atri
 
     
   nginx-certbot:
     restart: unless-stopped
-    image: staticfloat/nginx-certbot:latest
+    image: jonasal/nginx-certbot:latest
     ports:
       - 80:80/tcp
       - 443:443/tcp
     environment:
       CERTBOT_EMAIL: coa.statistics@gmail.com
+    env_file:
+      - ./nginx-certbot.env
     volumes:
       - static-volume:/app/live-static-files
       - ./config/nginx:/etc/nginx/user.conf.d
